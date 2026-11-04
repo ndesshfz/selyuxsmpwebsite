@@ -1,0 +1,345 @@
+body {
+    background-color: #050202;
+    color: #F8FAFC;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4, .font-heading {
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+/* Glassmorphism Classes for Red Theme */
+.glass-panel {
+    background: rgba(18, 5, 5, 0.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 0, 50, 0.2);
+}
+
+.glass-card {
+    background: rgba(25, 5, 5, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 0, 50, 0.15);
+    transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.glass-card:hover {
+    border-color: rgba(255, 0, 50, 0.6);
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px -10px rgba(255, 0, 50, 0.4);
+}
+
+/* Red Gradient Text */
+.text-red-gradient {
+    background: linear-gradient(135deg, #FFFFFF 0%, #FF1A1A 50%, #B30000 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.glow-text {
+    text-shadow: 0 0 20px rgba(255, 0, 50, 0.6);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #050202; }
+::-webkit-scrollbar-thumb { background: #2A1111; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #FF0033; }
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s cubic-bezier(0, 1, 0, 1);
+}
+.faq-answer.active {
+    max-height: 300px;  
+    transition: max-height 0.3s ease-in-out;
+}
+
+/* ===== FIRST-VISIT LOADER (counter 1-100%) =====
+   Hidden by default. A tiny script in <head> adds "first-visit" to <html>
+   only the first time the site is opened in a browser session. */
+.page-loader {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 500;
+    background: radial-gradient(circle at 50% 45%, #1a0508 0%, #050202 62%);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 26px;
+    transition: opacity .7s ease, transform .7s cubic-bezier(.77, 0, .18, 1), filter .7s ease;
+}
+html.first-visit { overflow: hidden; }
+html.first-visit .page-loader { display: flex; }
+.page-loader.hide {
+    opacity: 0;
+    transform: scale(1.06);
+    filter: blur(8px);
+    pointer-events: none;
+}
+
+.loader-ring-wrap {
+    position: relative;
+    width: 168px;
+    height: 168px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.loader-ring {
+    position: absolute;
+    inset: 0;
+    transform: rotate(-90deg);
+}
+.loader-ring circle { fill: none; stroke-width: 4; }
+.loader-ring .ring-track { stroke: #2A1111; }
+.loader-ring .ring-fill {
+    stroke: url(#loaderGrad);
+    stroke-linecap: round;
+    filter: drop-shadow(0 0 6px rgba(255, 0, 50, 0.8));
+}
+.loader-logo {
+    width: 84px;
+    height: 84px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 16px rgba(255, 0, 50, 0.55));
+    animation: loaderBreath 2s ease-in-out infinite;
+}
+@keyframes loaderBreath {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(0.93); opacity: .8; }
+}
+
+.loader-percent {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 56px;
+    line-height: 1;
+    color: #fff;
+    text-shadow: 0 0 24px rgba(255, 0, 50, 0.65);
+    font-variant-numeric: tabular-nums;
+}
+.loader-percent small {
+    font-size: 24px;
+    color: #FF0033;
+    margin-left: 2px;
+}
+.loader-brand {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 6px;
+    color: #9a8a8a;
+    text-transform: uppercase;
+}
+.loader-brand span { color: #FF0033; }
+.loader-status {
+    margin-top: -12px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 12px;
+    color: #6f5f5f;
+    height: 16px;
+}
+
+/* new page content rises in right as the curtain clears */
+html.page-entering section,
+html.page-entering footer {
+    animation: pageContentIn .8s cubic-bezier(.22, 1, .36, 1) .6s both;
+}
+@keyframes pageContentIn {
+    from { opacity: 0; transform: translateY(26px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .loader-logo { animation: none; }
+    html.page-leaving::after,
+    html.page-entering::after { animation: none; display: none; }
+    html.page-entering section,
+    html.page-entering footer { animation: none; }
+}
+
+/* ===== BACK BUTTON (arrow to the previous page) ===== */
+.back-btn {
+    position: fixed;
+    top: 104px;
+    left: 16px;
+    z-index: 45;
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(18, 5, 5, .75);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 0, 50, .35);
+    color: #e5e5e5;
+    font-size: 16px;
+    cursor: pointer;
+    transition: transform .25s cubic-bezier(.22, 1, .36, 1), background .25s, border-color .25s, box-shadow .25s, color .25s;
+}
+.back-btn.show { display: flex; animation: backIn .5s cubic-bezier(.22, 1, .36, 1) backwards; }
+.back-btn:hover {
+    color: #fff;
+    border-color: #ff0033;
+    background: rgba(255, 0, 50, .25);
+    box-shadow: 0 0 22px rgba(255, 0, 50, .5);
+    transform: translateX(-3px);
+}
+.back-btn:active { transform: translateX(-5px) scale(.94); }
+@keyframes backIn {
+    from { opacity: 0; transform: translateX(-14px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+@media (max-width: 640px) {
+    .back-btn { top: 96px; left: 10px; width: 42px; height: 42px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .back-btn, .back-btn.show { transition: none; animation: none; }
+}
+
+/* ===== PAGE TRANSITION (shutter slats + glitch title) =====
+   Overlay markup sits at the top of <body>; classes on <html> drive it.
+   leaving : 7 slats slam in alternately from top/bottom, title glitches in, light streak
+   entering: title blurs out, slats leave in the same direction they came */
+#pt { position: fixed; inset: 0; z-index: 600; visibility: hidden; pointer-events: none; overflow: hidden; }
+html.page-leaving #pt, html.page-entering #pt { visibility: visible; }
+html.page-leaving #pt { pointer-events: auto; }
+.pt-slats { position: absolute; inset: 0; display: flex; }
+.pt-slats span { position: relative; flex: 1; margin-right: -1px; will-change: transform; }
+.pt-slats span:nth-child(odd)  { background: linear-gradient(180deg, #16050b 0%, #050202 100%); }
+.pt-slats span:nth-child(even) { background: linear-gradient(180deg, #ff1a3d 0%, #7a0010 100%); box-shadow: 0 0 40px rgba(255, 0, 50, .55); }
+.pt-slats span::after { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(0deg, rgba(255,255,255,.045) 0 2px, transparent 2px 5px); }
+html.page-leaving .pt-slats span:nth-child(odd)   { animation: slatInTop .42s cubic-bezier(.76,0,.24,1) calc(var(--i) * 45ms) both; }
+html.page-leaving .pt-slats span:nth-child(even)  { animation: slatInBottom .42s cubic-bezier(.76,0,.24,1) calc(var(--i) * 45ms) both; }
+html.page-entering .pt-slats span:nth-child(odd)  { animation: slatOutDown .48s cubic-bezier(.76,0,.24,1) calc(.3s + var(--i) * 45ms) both; }
+html.page-entering .pt-slats span:nth-child(even) { animation: slatOutUp .48s cubic-bezier(.76,0,.24,1) calc(.3s + var(--i) * 45ms) both; }
+@keyframes slatInTop    { from { transform: translateY(-101%); } to { transform: translateY(0); } }
+@keyframes slatInBottom { from { transform: translateY(101%); }  to { transform: translateY(0); } }
+@keyframes slatOutDown  { from { transform: translateY(0); } to { transform: translateY(101%); } }
+@keyframes slatOutUp    { from { transform: translateY(0); } to { transform: translateY(-101%); } }
+
+.pt-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; pointer-events: none; }
+html.page-leaving .pt-center  { animation: ptCenterIn .38s cubic-bezier(.22,1,.36,1) .3s both; }
+html.page-entering .pt-center { animation: ptCenterOut .38s ease .1s both; }
+@keyframes ptCenterIn  { from { opacity: 0; transform: scale(.88); filter: blur(8px); } to { opacity: 1; transform: scale(1); filter: blur(0); } }
+@keyframes ptCenterOut { from { opacity: 1; transform: scale(1); filter: blur(0); } to { opacity: 0; transform: scale(1.12); filter: blur(10px); } }
+.pt-title {
+    position: relative;
+    font-family: 'Pirata One', 'UnifrakturCook', serif;
+    font-size: clamp(52px, 11vw, 120px);
+    line-height: 1;
+    letter-spacing: .04em;
+    color: #fff;
+    text-shadow: 0 0 30px rgba(255, 0, 50, .9), 0 0 80px rgba(255, 0, 50, .5);
+}
+.pt-title::before, .pt-title::after { content: attr(data-text); position: absolute; inset: 0; mix-blend-mode: screen; }
+.pt-title::before { color: #ff1a3d; clip-path: inset(0 0 52% 0); animation: glitchA .38s steps(2, end) infinite; }
+.pt-title::after  { color: #ff7a90; clip-path: inset(52% 0 0 0); animation: glitchB .31s steps(2, end) infinite; }
+@keyframes glitchA { 0% { transform: translate(-4px, 0); } 50% { transform: translate(3px, -2px); } 100% { transform: translate(-5px, 1px); } }
+@keyframes glitchB { 0% { transform: translate(4px, 0); } 50% { transform: translate(-3px, 2px); } 100% { transform: translate(5px, -1px); } }
+.pt-caption { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: .5em; text-indent: .5em; color: #ffb3bf; }
+.pt-caption::after { content: var(--pt-dest, 'LOADING'); }
+.pt-bar { width: min(240px, 60vw); height: 3px; background: rgba(255, 255, 255, .12); border-radius: 2px; overflow: hidden; }
+.pt-bar b { display: block; height: 100%; background: linear-gradient(90deg, #ff1a3d, #ffd0d8); transform-origin: left; box-shadow: 0 0 12px #ff1a3d; }
+html.page-leaving .pt-bar b { animation: ptBar .5s cubic-bezier(.65,0,.35,1) .35s both; }
+@keyframes ptBar { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.pt-streak {
+    position: absolute; left: 0; right: 0; top: 50%; height: 3px; margin-top: -1px; opacity: 0;
+    background: linear-gradient(90deg, transparent, #fff, #ff1a3d, transparent);
+    box-shadow: 0 0 30px 6px rgba(255, 26, 61, .8);
+}
+html.page-leaving .pt-streak { animation: ptStreak .45s ease .5s both; }
+@keyframes ptStreak { 0% { opacity: 0; transform: scaleX(0); } 40% { opacity: 1; transform: scaleX(1); } 100% { opacity: 0; transform: scaleX(1.2); } }
+@media (prefers-reduced-motion: reduce) { #pt { display: none; } }
+
+/* typing cursor (headline on the home page) */
+.cursor {
+  display: inline-block;
+  width: 3px;
+  height: 1em;
+  background-color: #ef4444;
+  margin-left: 2px;
+  vertical-align: middle;
+  animation: blink 0.75s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* ===== MUSIC TOGGLE (backsound) ===== */
+.music-btn {
+    position: fixed; left: 16px; bottom: 18px; z-index: 45;
+    width: 46px; height: 46px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(18, 5, 5, .75);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 0, 50, .35);
+    cursor: pointer;
+    transition: border-color .25s, box-shadow .25s, transform .25s;
+}
+.music-btn:hover { border-color: #ff0033; box-shadow: 0 0 22px rgba(255, 0, 50, .5); transform: translateY(-2px); }
+.music-btn .eq { display: flex; align-items: flex-end; gap: 3px; height: 18px; }
+.music-btn .eq b { display: block; width: 3px; height: 4px; border-radius: 2px; background: #ff3355; transition: height .3s; }
+.music-btn.on .eq b { animation: eqBar 1s ease-in-out infinite; }
+.music-btn.on .eq b:nth-child(2) { animation-delay: -.3s; }
+.music-btn.on .eq b:nth-child(3) { animation-delay: -.6s; }
+.music-btn.on .eq b:nth-child(4) { animation-delay: -.15s; }
+@keyframes eqBar { 0%, 100% { height: 4px; } 50% { height: 18px; } }
+.music-btn.wait { animation: musicPulse 1.8s ease-out infinite; }
+@keyframes musicPulse { 0% { box-shadow: 0 0 0 0 rgba(255, 0, 50, .55); } 100% { box-shadow: 0 0 0 16px rgba(255, 0, 50, 0); } }
+.music-btn.off .eq b { background: #7a5560; }
+.music-btn.off::after {
+    content: ''; position: absolute; width: 26px; height: 2px; border-radius: 2px;
+    background: #ff3355; transform: rotate(-45deg); box-shadow: 0 0 6px rgba(255, 0, 50, .7);
+}
+@media (max-width: 640px) { .music-btn { left: 10px; bottom: 12px; width: 42px; height: 42px; } }
+@media (prefers-reduced-motion: reduce) {
+    .music-btn.on .eq b { animation: none; height: 12px; }
+    .music-btn.wait { animation: none; }
+}
+
+/* ===== SHOP TABS: sliding pill + card morph ===== */
+.tab-bar {
+    position: relative; display: inline-flex; gap: 4px; padding: 6px; border-radius: 18px;
+    background: rgba(25, 5, 5, .7);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 0, 50, .2);
+}
+.tab-pill {
+    position: absolute; top: 6px; bottom: 6px; left: 0; width: 0; border-radius: 13px; pointer-events: none;
+    background: linear-gradient(135deg, #dc2626, #7f1d1d);
+    box-shadow: 0 0 20px rgba(255, 0, 50, .45);
+    transition: transform .6s cubic-bezier(.5, 1.25, .35, 1), width .6s cubic-bezier(.5, 1.25, .35, 1);
+    will-change: transform, width;
+}
+.tab-bar .category-btn { position: relative; z-index: 1; background: transparent; border: 0; }
+@media (max-width: 420px) { .tab-bar .category-btn { padding-left: .85rem; padding-right: .85rem; } }
+.card-out { animation: cardOut .24s ease-in forwards; animation-delay: calc(var(--i, 0) * 28ms); }
+@keyframes cardOut { to { opacity: 0; transform: translateY(-12px) scale(.95); } }
+.card-in { animation: cardIn .65s cubic-bezier(.22, 1, .36, 1) backwards; animation-delay: calc(var(--i, 0) * 60ms); }
+@keyframes cardIn { from { opacity: 0; transform: translateY(28px) scale(.93); } }
+@media (prefers-reduced-motion: reduce) { .tab-pill { transition: none; } .card-in, .card-out { animation: none; } }
+
+/* ===== CUSTOM CURSOR =====
+   Built-in red arrow (default) and a white arrow with a red outline (over links and buttons).
+   To use a Flaticon icon instead: save it as cursor.png (32x32) in this folder and replace the two
+   url("data:...") values below with url("cursor.png") X Y, auto   (X Y = the tip of the arrow in pixels). */
+:root {
+    --cur: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M4 2v22l6-5.5 4.5 9.5 4-1.8L14 17h8z' fill='%23ff1a3d' stroke='%23fff' stroke-width='1.6' stroke-linejoin='round'/%3E%3C/svg%3E") 4 2, auto;
+    --cur-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M4 2v22l6-5.5 4.5 9.5 4-1.8L14 17h8z' fill='%23fff' stroke='%23ff1a3d' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E") 4 2, pointer;
+}
+*, *::before, *::after { cursor: var(--cur) !important; }
+a, a *, button, button *, label, label *, select, summary, [role="button"], [role="button"] *,
+.cursor-pointer, .cursor-pointer *, .category-btn, .music-btn, .back-btn { cursor: var(--cur-pointer) !important; }
+input:not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]), textarea { cursor: text !important; }
+button:disabled, button:disabled * { cursor: not-allowed !important; }
